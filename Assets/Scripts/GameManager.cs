@@ -4,8 +4,13 @@ using UnityEngine;
 
 public class GameManager : MonoBehaviour {
 
-	// Use this for initialization
-	private void Start () {
+    public Maze mazePrefab;
+
+    private Maze mazeInstance;
+
+    // Use this for initialization
+    private void Start ()
+    {
         BeginGame ();
 	}
 	
@@ -17,7 +22,20 @@ public class GameManager : MonoBehaviour {
         }
 	}
 
-    private void BeginGame() { }
+    private void BeginGame()
+    {
+        mazeInstance = Instantiate(mazePrefab) as Maze;
+        StartCoroutine(mazeInstance.Generate());
+        StartCoroutine(mazeInstance.Init());
+        //StartCoroutine(mazeInstance.Suffle());
+        
+        //StartCoroutine(mazeInstance.Research());
+    }
 
-    private void RestartGame() { }
+    private void RestartGame()
+    {
+        StopAllCoroutines();
+        Destroy(mazeInstance.gameObject);
+        BeginGame();
+    }
 }
